@@ -29,6 +29,7 @@ public record ProductRequestDTO(
                 .description(request.description())
                 .price(request.price())
                 .stockQuantity(request.stockQuantity())
+                .disabled(false)
                 .build();
     }
 }

@@ -12,6 +12,7 @@ public record ProductResponseDTO(
         String description,
         BigDecimal price,
         Integer stockQuantity,
+        Boolean disabled,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
@@ -23,6 +24,7 @@ public record ProductResponseDTO(
                 product.getDescription(),
                 product.getPrice(),
                 product.getStockQuantity(),
+                product.getDisabled(),
                 product.getCreatedAt(),
                 product.getUpdatedAt()
         );

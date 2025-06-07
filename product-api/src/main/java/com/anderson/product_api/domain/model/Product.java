@@ -36,6 +36,8 @@ public class Product {
 
     private Integer stockQuantity;
 
+    private Boolean disabled;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
