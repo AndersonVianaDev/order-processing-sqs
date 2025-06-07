@@ -16,7 +16,7 @@ public record ProductResponseDTO(
         LocalDateTime updatedAt
 ) {
 
-    public static ProductResponseDTO from(Product product) {
+    public static ProductResponseDTO of(Product product) {
         return new ProductResponseDTO(
                 product.getId(),
                 product.getName(),

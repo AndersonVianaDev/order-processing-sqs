@@ -22,7 +22,7 @@ public record ProductRequestDTO(
         @Min(value = 0, message = "Stock quantity must be zero or greater")
         Integer stockQuantity) {
 
-    public static Product of(UUID userId, ProductRequestDTO request) {
+    public static Product from(UUID userId, ProductRequestDTO request) {
         return Product.builder()
                 .ownerId(userId)
                 .name(request.name())

@@ -7,6 +7,8 @@ import com.anderson.product_api.infra.exception.NotFoundException;
 import com.anderson.product_api.infra.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -31,5 +33,10 @@ public class ProductServiceImpl implements IProductService {
     public Product findById(UUID ownerId, UUID id) {
         return repository.findByOwnerIdAndId(ownerId, id)
                 .orElseThrow(() -> new NotFoundException("Product not found"));
+    }
+
+    @Override
+    public Page<Product> findAll(UUID ownerId, Pageable pageable) {
+        return repository.findByOwnerId(ownerId, pageable);
     }
 }
