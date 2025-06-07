@@ -10,4 +10,5 @@ public interface IProductService {
     Product save(Product product);
     Product findById(UUID ownerId, UUID id);
     Page<Product> findAll(UUID ownerId, Pageable pageable);
+    Product decreaseStock(UUID ownerId, UUID id, int quantity);
 }

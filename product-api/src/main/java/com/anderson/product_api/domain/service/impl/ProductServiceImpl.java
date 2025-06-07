@@ -3,6 +3,7 @@ package com.anderson.product_api.domain.service.impl;
 import com.anderson.product_api.domain.model.Product;
 import com.anderson.product_api.domain.service.IProductService;
 import com.anderson.product_api.infra.exception.DataConflictException;
+import com.anderson.product_api.infra.exception.InvalidStockOperationException;
 import com.anderson.product_api.infra.exception.NotFoundException;
 import com.anderson.product_api.infra.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +39,19 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public Page<Product> findAll(UUID ownerId, Pageable pageable) {
         return repository.findByOwnerId(ownerId, pageable);
+    }
+
+    @Override
+    public Product decreaseStock(UUID ownerId, UUID id, int quantity) {
+        final Product product = findById(ownerId, id);
+        int newStock = product.getStockQuantity() - quantity;
+
+        if(newStock < 0) {
+            throw new InvalidStockOperationException("Insufficient stock for this operation");
+        }
+
+        product.setStockQuantity(newStock);
+
+        return repository.save(product);
     }
 }

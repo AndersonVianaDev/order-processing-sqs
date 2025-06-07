@@ -1,5 +1,6 @@
 package com.anderson.product_api.controller;
 
+import com.anderson.product_api.controller.dtos.request.DecreaseStockRequestDTO;
 import com.anderson.product_api.controller.dtos.request.ProductRequestDTO;
 import com.anderson.product_api.controller.dtos.response.PageResponseDTO;
 import com.anderson.product_api.controller.dtos.response.ProductResponseDTO;
@@ -48,4 +49,14 @@ public class ProductController {
 
         return ResponseEntity.ok(PageResponseDTO.of(page));
     }
+
+    @PatchMapping("/{id}/decrease-stock")
+    public ResponseEntity<ProductResponseDTO> decreaseStock(@RequestHeader("X-USER-ID") UUID userId,
+                                                            @PathVariable("id") UUID id,
+                                                            @RequestBody @Valid DecreaseStockRequestDTO request) {
+        final Product product = service.decreaseStock(userId, id, request.quantity());
+
+        return ResponseEntity.ok(ProductResponseDTO.of(product));
+    }
+
 }
