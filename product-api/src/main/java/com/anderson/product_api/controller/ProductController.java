@@ -28,4 +28,12 @@ public class ProductController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ProductResponseDTO.from(product));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductResponseDTO> findById(@RequestHeader("X-USER-ID") UUID userId,
+                                                       @PathVariable("id") UUID id) {
+        final Product product = service.findById(userId, id);
+
+        return ResponseEntity.ok(ProductResponseDTO.from(product));
+    }
 }
