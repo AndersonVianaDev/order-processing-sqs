@@ -50,7 +50,7 @@ public class ProductController {
         return ResponseEntity.ok(PageResponseDTO.of(page));
     }
 
-    @PatchMapping("/{id}/decrease-stock")
+    @PostMapping("/{id}/decrease-stock")
     public ResponseEntity<ProductResponseDTO> decreaseStock(@RequestHeader("X-USER-ID") UUID userId,
                                                             @PathVariable("id") UUID id,
                                                             @RequestBody @Valid DecreaseStockRequestDTO request) {
