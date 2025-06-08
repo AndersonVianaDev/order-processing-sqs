@@ -24,7 +24,7 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     @Transactional
     public Order save(Order order) {
-        order.setStatus(OrderStatus.CREATED);
+        order.setStatus(OrderStatus.PENDING);
         Order orderSaved = repository.save(order);
 
         List<OrderItem> orderItems = orderItemService.save(order.getItems(), orderSaved);
