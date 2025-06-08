@@ -16,4 +16,6 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
 
-
+aws:
+  queue:
+    order-worker: <queue>
