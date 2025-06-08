@@ -3,6 +3,7 @@ package com.anderson.order_api.domain.services.impl;
 import com.anderson.order_api.domain.model.Order;
 import com.anderson.order_api.domain.model.OrderItem;
 import com.anderson.order_api.domain.model.enums.OrderStatus;
+import com.anderson.order_api.domain.services.IMessagePublisher;
 import com.anderson.order_api.domain.services.IOrderItemService;
 import com.anderson.order_api.domain.services.IOrderService;
 import com.anderson.order_api.infra.repository.OrderRepository;
@@ -20,6 +21,7 @@ public class OrderServiceImpl implements IOrderService {
 
     private final OrderRepository repository;
     private final IOrderItemService orderItemService;
+    private final IMessagePublisher messagePublisher;
 
     @Override
     @Transactional
@@ -30,6 +32,7 @@ public class OrderServiceImpl implements IOrderService {
         List<OrderItem> orderItems = orderItemService.save(order.getItems(), orderSaved);
         orderSaved.setItems(orderItems);
         orderSaved.setTotal(orderSaved.calculateTotal());
+        messagePublisher.send(orderSaved);
 
         return orderSaved;
     }
