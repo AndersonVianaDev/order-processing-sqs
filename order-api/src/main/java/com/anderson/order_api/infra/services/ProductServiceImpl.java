@@ -21,9 +21,4 @@ public class ProductServiceImpl implements IProductService {
     public Product findById(UUID ownerId, UUID id) {
         return productClient.getProductById(ownerId, id);
     }
-
-    @Override
-    public void decreaseStock(UUID ownerId, UUID id, int quantity) {
-        productClient.decreaseStock(ownerId, id, new DecreaseStockRequestDTO(quantity));
-    }
 }

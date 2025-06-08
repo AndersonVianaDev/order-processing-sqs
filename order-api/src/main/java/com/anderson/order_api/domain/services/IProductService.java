@@ -6,5 +6,4 @@ import java.util.UUID;
 
 public interface IProductService {
     Product findById(UUID ownerId, UUID id);
-    void decreaseStock(UUID ownerId, UUID id, int quantity);
 }
