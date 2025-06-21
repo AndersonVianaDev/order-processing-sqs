@@ -26,35 +26,31 @@ public class ProductController {
     private final IProductService service;
 
     @PostMapping
-    public ResponseEntity<ProductResponseDTO> save(@RequestHeader("X-USER-ID") UUID userId,
-                                                   @RequestBody @Valid ProductRequestDTO request) {
-        final Product product = service.save(ProductRequestDTO.from(userId, request));
+    public ResponseEntity<ProductResponseDTO> save(@RequestBody @Valid ProductRequestDTO request) {
+        final Product product = service.save(ProductRequestDTO.from(request));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ProductResponseDTO.of(product));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponseDTO> findById(@RequestHeader("X-USER-ID") UUID userId,
-                                                       @PathVariable("id") UUID id) {
-        final Product product = service.findById(userId, id);
+    public ResponseEntity<ProductResponseDTO> findById(@PathVariable("id") UUID id) {
+        final Product product = service.findById(id);
 
         return ResponseEntity.ok(ProductResponseDTO.of(product));
     }
 
     @GetMapping
-    public ResponseEntity<PageResponseDTO<ProductResponseDTO>> findAll(@RequestHeader("X-USER-ID") UUID userId,
-                                                                        Pageable pageable) {
-        final Page<ProductResponseDTO> page = service.findAll(userId, pageable)
+    public ResponseEntity<PageResponseDTO<ProductResponseDTO>> findAll(Pageable pageable) {
+        final Page<ProductResponseDTO> page = service.findAll(pageable)
                 .map(ProductResponseDTO::of);
 
         return ResponseEntity.ok(PageResponseDTO.of(page));
     }
 
     @PostMapping("/{id}/decrease-stock")
-    public ResponseEntity<ProductResponseDTO> decreaseStock(@RequestHeader("X-USER-ID") UUID userId,
-                                                            @PathVariable("id") UUID id,
+    public ResponseEntity<ProductResponseDTO> decreaseStock(@PathVariable("id") UUID id,
                                                             @RequestBody @Valid DecreaseStockRequestDTO request) {
-        final Product product = service.decreaseStock(userId, id, request.quantity());
+        final Product product = service.decreaseStock(id, request.quantity());
 
         return ResponseEntity.ok(ProductResponseDTO.of(product));
     }

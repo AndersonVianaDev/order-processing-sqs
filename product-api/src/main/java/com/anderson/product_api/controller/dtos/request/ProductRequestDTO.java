@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 public record ProductRequestDTO(
         @NotBlank(message = "'name' is required")
@@ -22,9 +21,8 @@ public record ProductRequestDTO(
         @Min(value = 0, message = "Stock quantity must be zero or greater")
         Integer stockQuantity) {
 
-    public static Product from(UUID userId, ProductRequestDTO request) {
+    public static Product from(ProductRequestDTO request) {
         return Product.builder()
-                .ownerId(userId)
                 .name(request.name())
                 .description(request.description())
                 .price(request.price())

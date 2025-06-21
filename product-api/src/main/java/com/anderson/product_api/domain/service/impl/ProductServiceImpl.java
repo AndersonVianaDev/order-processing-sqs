@@ -23,7 +23,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     public Product save(Product product) {
-        if (repository.findByOwnerIdAndName(product.getOwnerId(), product.getName()).isPresent()) {
+        if (repository.findByName(product.getName()).isPresent()) {
             throw new DataConflictException("product already registered");
         }
 
@@ -31,19 +31,19 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public Product findById(UUID ownerId, UUID id) {
-        return repository.findByOwnerIdAndId(ownerId, id)
+    public Product findById(UUID id) {
+        return repository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Product not found"));
     }
 
     @Override
-    public Page<Product> findAll(UUID ownerId, Pageable pageable) {
-        return repository.findByOwnerId(ownerId, pageable);
+    public Page<Product> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     @Override
-    public Product decreaseStock(UUID ownerId, UUID id, int quantity) {
-        final Product product = findById(ownerId, id);
+    public Product decreaseStock(UUID id, int quantity) {
+        final Product product = findById(id);
         int newStock = product.getStockQuantity() - quantity;
 
         if(newStock < 0) {
