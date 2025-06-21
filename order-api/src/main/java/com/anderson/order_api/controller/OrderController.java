@@ -22,9 +22,8 @@ public class OrderController {
     private final IOrderService service;
 
     @PostMapping
-    public ResponseEntity<OrderResponseDTO> save(@RequestHeader("X-USER-ID")UUID userId,
-                                                 @RequestBody @Valid OrderRequestDTO request) {
-        final Order order = service.save(OrderRequestDTO.from(userId, request));
+    public ResponseEntity<OrderResponseDTO> save(@RequestBody @Valid OrderRequestDTO request) {
+        final Order order = service.save(OrderRequestDTO.from(request));
 
         return ResponseEntity.status(HttpStatus.CREATED).body(OrderResponseDTO.of(order));
     }

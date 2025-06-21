@@ -27,8 +27,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private UUID ownerId;
-
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 

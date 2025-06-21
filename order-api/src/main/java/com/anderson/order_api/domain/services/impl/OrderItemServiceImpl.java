@@ -23,7 +23,7 @@ public class OrderItemServiceImpl implements IOrderItemService {
     @Override
     public List<OrderItem> save(List<OrderItem> orderItems, Order order) {
         for (OrderItem item : orderItems) {
-            Product product = productService.findById(order.getOwnerId(), item.getProductId());
+            Product product = productService.findById(item.getProductId());
 
             item.setProductName(product.getName());
             item.setProductPrice(product.getPrice());

@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/test
+    url: jdbc:postgresql://localhost:5432/test?currentSchema=ecommerce
     username: anderson
     password: test
     driver-class-name: org.postgresql.Driver
@@ -19,3 +19,7 @@ spring:
 aws:
   queue:
     order-worker: <queue>
+
+api:
+  url:
+    product-api: <url>

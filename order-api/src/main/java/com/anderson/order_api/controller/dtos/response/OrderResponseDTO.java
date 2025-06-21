@@ -10,7 +10,6 @@ import java.util.UUID;
 
 public record OrderResponseDTO(
         UUID id,
-        UUID ownerId,
         OrderStatus status,
         BigDecimal total,
         List<OrderItemResponseDTO> orderItems,
@@ -21,7 +20,6 @@ public record OrderResponseDTO(
     public static OrderResponseDTO of(Order order) {
         return new OrderResponseDTO(
                 order.getId(),
-                order.getOwnerId(),
                 order.getStatus(),
                 order.getTotal(),
                 order.getItems().isEmpty() ?
