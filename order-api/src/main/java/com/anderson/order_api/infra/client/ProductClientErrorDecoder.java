@@ -25,10 +25,10 @@ public class ProductClientErrorDecoder implements ErrorDecoder {
             final String json = new String(body.readAllBytes(), StandardCharsets.UTF_8);
             final StandardException standard = objectMapper.readValue(json, StandardException.class);
 
-            return switch (response.status()) {
-                case 404 -> new NotFoundException(standard.message());
-                case 409 -> new DataConflictException(standard.message());
-                case 422 -> new InvalidStockOperationException(standard.message());
+            return switch (status) {
+                case NOT_FOUND -> new NotFoundException(standard.message());
+                case CONFLICT -> new DataConflictException(standard.message());
+                case UNPROCESSABLE_ENTITY -> new InvalidStockOperationException(standard.message());
                 default -> new UnexpectedException(standard.message());
             };
         } catch (Exception e) {
