@@ -1,4 +1,4 @@
-package com.anderson.order_worker.infra.aws;
+package com.anderson.order_worker.infra.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

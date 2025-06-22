@@ -11,11 +11,9 @@ import java.util.UUID;
 public interface ProductClient {
 
     @GetMapping("/{id}")
-    Product getProductById(@RequestHeader("X-USER-ID") UUID userId,
-                           @PathVariable("id") UUID id);
+    Product getProductById(@PathVariable("id") UUID id);
 
     @PostMapping("/{id}/decrease-stock")
-    void decreaseStock(@RequestHeader("X-USER-ID") UUID userId,
-                       @PathVariable("id") UUID id,
+    void decreaseStock(@PathVariable("id") UUID id,
                        @RequestBody DecreaseStockDTO dto);
 }

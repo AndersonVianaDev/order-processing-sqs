@@ -18,12 +18,7 @@ public class ProductGatewayImpl implements IProductGateway {
     private final ProductClient productClient;
 
     @Override
-    public Product findById(UUID productId, UUID userId) {
-        return productClient.getProductById(userId, productId);
-    }
-
-    @Override
-    public void decreaseStock(UUID productId, UUID userId, Integer quantity) {
-        productClient.decreaseStock(userId, productId, DecreaseStockDTO.from(quantity));
+    public void decreaseStock(UUID productId, Integer quantity) {
+        productClient.decreaseStock(productId, DecreaseStockDTO.from(quantity));
     }
 }

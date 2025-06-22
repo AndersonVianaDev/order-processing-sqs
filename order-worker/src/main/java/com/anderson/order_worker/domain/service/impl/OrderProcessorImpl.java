@@ -5,7 +5,9 @@ import com.anderson.order_worker.domain.model.OrderItem;
 import com.anderson.order_worker.domain.model.Product;
 import com.anderson.order_worker.domain.model.enums.OrderStatus;
 import com.anderson.order_worker.domain.service.IOrderProcessor;
-import com.anderson.order_worker.domain.service.IProductService;
+import com.anderson.order_worker.domain.service.IProductGateway;
+import com.anderson.order_worker.infra.exceptions.InvalidStockOperationException;
+import com.anderson.order_worker.infra.exceptions.NotFoundException;
 import com.anderson.order_worker.infra.repositories.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,26 +21,32 @@ import java.util.UUID;
 public class OrderProcessorImpl implements IOrderProcessor {
 
     private final OrderRepository orderRepository;
-    private final IProductService productService;
+    private final IProductGateway productGateway;
 
     @Override
     public void process(UUID orderId) {
         final Order order = orderRepository.findByIdWithItems(orderId)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new NotFoundException("Order not found"));
 
-        for (OrderItem item : order.getItems()) {
-            final Product product = productService.findById(item.getProductId(), order.getOwnerId());
-
-            if (product.getStockQuantity() < item.getQuantity()) {
-                order.setStatus(OrderStatus.CANCELED_OUT_OF_STOCK);
-                orderRepository.save(order);
-                return;
-            }
-
-            productService.decreaseStock(product.getId(), order.getOwnerId(), item.getQuantity());
+        if(order.getStatus() != OrderStatus.PENDING) {
+            return;
         }
 
-        order.setStatus(OrderStatus.CONFIRMED);
-        orderRepository.save(order);
+        try {
+            for (OrderItem item : order.getItems()) {
+                productGateway.decreaseStock(item.getProductId(), item.getQuantity());
+            }
+
+            order.setStatus(OrderStatus.CONFIRMED);
+
+        } catch (NotFoundException e) {
+            order.setStatus(OrderStatus.CANCELED);
+        } catch (InvalidStockOperationException e) {
+            order.setStatus(OrderStatus.CANCELED_OUT_OF_STOCK);
+        } catch (Exception e) {
+            order.setStatus(OrderStatus.CANCELED);
+        } finally {
+            orderRepository.save(order);
+        }
     }
 }
