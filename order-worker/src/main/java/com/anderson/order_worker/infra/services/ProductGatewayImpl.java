@@ -1,7 +1,7 @@
 package com.anderson.order_worker.infra.services;
 
 import com.anderson.order_worker.domain.model.Product;
-import com.anderson.order_worker.domain.service.IProductService;
+import com.anderson.order_worker.domain.service.IProductGateway;
 import com.anderson.order_worker.infra.client.ProductClient;
 import com.anderson.order_worker.infra.dtos.DecreaseStockDTO;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ProductServiceImpl implements IProductService {
+public class ProductGatewayImpl implements IProductGateway {
 
     private final ProductClient productClient;
 

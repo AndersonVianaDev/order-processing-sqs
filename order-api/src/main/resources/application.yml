@@ -22,4 +22,5 @@ aws:
 
 api:
   url:
-    product-api: <url>
+    product-api: localhost:8080/products
+
